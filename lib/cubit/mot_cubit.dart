@@ -2,9 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 
 import '../exception/network_exception.dart';
-import '../model/mot_file_request_model.dart';
 import '../model/mot_list_request_model.dart';
-import '../model/mot_file_response_model.dart';
 import '../model/mot_response_model.dart';
 import '../service/IMotService.dart';
 
@@ -71,28 +69,12 @@ class MotCubit extends Cubit<MotState> {
     fecthResult(hospitalListId, startDate, endDate, searchKey);
   }
 
-  fecthReportFile(String guid, int webServiceListId) async {
-    Logger().d("guid");
-    Logger().d(guid);
-    Logger().d(userListId);
+  fecthReportFile(String pdfUrl) {
+    Logger().d("pdfUrl: $pdfUrl");
     emit(state.copyWith(status: MotStatus.pdfLoading));
-    try {
-      var data = await service.postReportFile(MotFileRequestModel(
-          userListId: userListId,
-          language: languageCode,
-          reportGUID: guid,
-          webServiceListId: webServiceListId));
-      Logger().d(data);
-      if (data is MotFileResponseModel && data.status == true) {
-        emit(state.copyWith(status: MotStatus.pdfView, pdfUrl: data.url));
-      } else {
-        emit(state.copyWith(status: MotStatus.pdfError));
-      }
-    } on NetworkException catch (e) {
-      Logger().d(e);
-      emit(state.copyWith(status: MotStatus.pdfError));
-    } catch (e) {
-      Logger().d(e);
+    if (pdfUrl.isNotEmpty) {
+      emit(state.copyWith(status: MotStatus.pdfView, pdfUrl: pdfUrl));
+    } else {
       emit(state.copyWith(status: MotStatus.pdfError));
     }
   }
@@ -111,15 +93,14 @@ class MotCubit extends Cubit<MotState> {
           if (motModel is MotItemModel) {
             String name = (motModel.reportName ?? "");
             String date = (motModel.reportDateTR ?? "");
-            String hour = (motModel.reportDateTR ?? "");
-            String doctorName = (motModel.doctorName ?? "");
+            String dept = (motModel.departmentName ?? "");
             String lowerName = name.toLowerCase();
             if (lowerName.contains(keyword) ||
                 date.contains(keyword) ||
-                hour.contains(keyword)) {
+                dept.toLowerCase().contains(keyword)) {
               searchResultListModel.items!.add(motModel);
               Logger().d(lowerName);
-              Logger().d(doctorName);
+              Logger().d(dept);
             }
           }
         }

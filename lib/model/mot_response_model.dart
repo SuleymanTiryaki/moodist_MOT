@@ -28,62 +28,38 @@ class MotResponseModel {
 }
 
 class MotItemModel {
-  int? webServiceId;
-  int? hospitalID;
-  String? hospitalName;
-  int? departmentID;
   String? departmentName;
-  int? doctorID;
-  String? doctorName;
   String? reportName;
+  String? enterDate;
+  String? exitDate;
   String? reportDateTR;
-  String? reportStatus;
-  String? reportGUID;
-  String? doctorImage;
+  String? pdfUrl;
 
   MotItemModel(
-      {this.webServiceId,
-      this.hospitalID,
-      this.hospitalName,
-      this.departmentID,
-      this.departmentName,
-      this.doctorID,
-      this.doctorName,
+      {this.departmentName,
       this.reportName,
+      this.enterDate,
+      this.exitDate,
       this.reportDateTR,
-      this.reportStatus,
-      this.reportGUID,
-      this.doctorImage});
+      this.pdfUrl});
 
   MotItemModel.fromJson(Map<String, dynamic> json) {
-    webServiceId = json['webServiceId'];
-    hospitalID = json['HospitalID'];
-    hospitalName = json['HospitalName'];
-    departmentID = json['DepartmentID'];
     departmentName = json['DepartmentName'];
-    doctorID = json['DoctorID'];
-    doctorName = json['DoctorName'];
     reportName = json['ReportName'];
+    enterDate = json['EnterDate'];
+    exitDate = json['ExitDate'];
     reportDateTR = json['ReportDateTR'];
-    reportStatus = json['ReportStatus'];
-    reportGUID = json['ReportGUID'];
-    doctorImage = json['doctorImage'];
+    pdfUrl = json['pdfUrl'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['webServiceId'] = webServiceId;
-    data['HospitalID'] = hospitalID;
-    data['HospitalName'] = hospitalName;
-    data['DepartmentID'] = departmentID;
     data['DepartmentName'] = departmentName;
-    data['DoctorID'] = doctorID;
-    data['DoctorName'] = doctorName;
     data['ReportName'] = reportName;
+    data['EnterDate'] = enterDate;
+    data['ExitDate'] = exitDate;
     data['ReportDateTR'] = reportDateTR;
-    data['ReportStatus'] = reportStatus;
-    data['ReportGUID'] = reportGUID;
-    data['doctorImage'] = doctorImage;
+    data['pdfUrl'] = pdfUrl;
     return data;
   }
 }
