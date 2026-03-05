@@ -29,7 +29,7 @@ class MotService extends IMotService {
 
   postResultsFunc(MotListRequestModel requestModel) async {
     Logger().d(requestModel.toJson());
-    final response = await dio.post(labResultsPath, data: requestModel);
+    final response = await dio.post(labResultsPath, data: requestModel.toJson());
     Logger().d("mot sonuçları listesi");
     Logger().d(response.data);
     if (response.statusCode == HttpStatus.ok) {
@@ -54,7 +54,7 @@ class MotService extends IMotService {
   }
 
   postReportFileFunc(MotFileRequestModel motFileRequestModel) async {
-    final response = await dio.post(resultFilePath, data: motFileRequestModel);
+    final response = await dio.post(resultFilePath, data: motFileRequestModel.toJson());
     if (response.statusCode == HttpStatus.ok) {
       return MotFileResponseModel.fromJson(response.data);
     } else {
